@@ -15,6 +15,9 @@ LifeOS is a comprehensive, modern personal management web application designed t
 *   **⏲️ Focus Timer**: Pomodoro-style timer with customizable work/break intervals.
 *   **📋 Kanban Projects**: Drag-and-drop project management with tasks, comments, and color coding.
 *   **💡 Ideas Board**: Sticky-note style "Brain Dump" area for quick thoughts.
+*   **📱 Mobile & PWA**: Fully offline-capable Progressive Web App with install support.
+*   **🔔 Smart Notifications**: Local reminders to keep up with habits and journaling.
+*   **🧩 Custom Dashboard**: Draggable widgets to personalize your home screen layout.
 *   ** Identity Hub**: beautifully designed "About Me" profile page.
 *   **🎨 Premium UI**:
     *   **Glassmorphism**: Modern, frosted-glass aesthetic using backdrop filters.
@@ -131,7 +134,4 @@ lifeos/
 
 
 
-### 📱 Mobile & Customization
-*   [ ] **Offline Mode**: Enhanced PWA capabilities for full offline functionality.
-*   [ ] **Push Notifications**: Reminders for bills, habits, and journaling.
-*   [ ] **Widget Dashboard**: Draggable, customizable cards on the home screen.
+
