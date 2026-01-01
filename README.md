@@ -108,7 +108,21 @@ lifeos/
 
 ## 🔜 Future Roadmap
 
-*   [ ] **Backend Integration**: Connect to Supabase for real cloud persistence.
-*   [ ] **AI Insights**: Integrate OpenAI/Gemini for financial advice and journal sentiment analysis.
-*   [ ] **Mobile View**: Further optimize for PWA (Progressive Web App) experience.
-*   [ ] **Themes**: Add configurable color themes customizer.
+### 🧠 AI & Intelligence
+*   [ ] **Journal Sentiment Analysis**: Weekly mental health summaries based on mood tracking.
+*   [ ] **Smart Finance Insights**: AI-driven spending habits analysis and advice.
+*   [ ] **Auto-Scheduling**: "Magic Button" to fit to-do lists into free calendar slots.
+
+### ☁️ Backend & Cloud Sync
+*   [ ] **Supabase Integration**: Move from local storage to PostgreSQL for real authentication and multi-device sync.
+*   [ ] **Google Calendar Sync**: Two-way integration for events.
+
+### ✅ Habit & Productivity
+*   [ ] **Habit Tracker**: GitHub-style contribution graphs and streak tracking for daily habits.
+*   [ ] **Pomodoro Timer**: Integrated focus timer for deep work sessions.
+*   [ ] **Kanban Board**: Drag-and-drop project management.
+
+### 📱 Mobile & Customization
+*   [ ] **Offline Mode**: Enhanced PWA capabilities for full offline functionality.
+*   [ ] **Push Notifications**: Reminders for bills, habits, and journaling.
+*   [ ] **Widget Dashboard**: Draggable, customizable cards on the home screen.
