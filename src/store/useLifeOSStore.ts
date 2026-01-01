@@ -108,6 +108,10 @@ interface LifeOSState {
 
   addGratitudeEntry: (entry: GratitudeEntry) => void;
 
+  // Dashboard Layout
+  dashboardLayout: string[];
+  setDashboardLayout: (layout: string[]) => void;
+
   // Habit Actions
   addHabit: (title: string, frequency: 'daily' | 'weekly') => void;
   deleteHabit: (id: string) => void;
@@ -229,6 +233,7 @@ export const useLifeOSStore = create<LifeOSState>((set) => ({
     longBreakDuration: 15,
   },
   board: initialBoard,
+  dashboardLayout: ['stats', 'quote', 'agenda', 'finance'],
   ideas: mockIdeas,
 
   addEvent: (event) => set((state) => ({ events: [...state.events, event] })),
@@ -413,6 +418,9 @@ export const useLifeOSStore = create<LifeOSState>((set) => ({
       }
     };
   }),
+
+  // Dashboard Actions
+  setDashboardLayout: (layout) => set({ dashboardLayout: layout }),
 
   // Ideas Actions
   addIdea: (content, color, rotation) => set((state) => ({
