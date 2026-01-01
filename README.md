@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LifeOS - Personal Life Operating System
 
-## Getting Started
+LifeOS is a comprehensive, modern personal management web application designed to help users organize their life, finances, and mental well-being in one unified interface. Built with performance and aesthetics in mind, it features a glassmorphic design, smooth animations, and a seamless user experience.
 
-First, run the development server:
+![LifeOS Banner](/public/banner-placeholder.png) *Note: Replace with actual screenshot*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Key Features
+
+*   **🛡️ Secure Authentication**: Middleware-protected routes with a custom login/signup interface.
+*   **📊 Interactive Dashboard**: At-a-glance view of daily stats, quotes, and quick actions.
+*   **💰 Finance Tracker**: Manage expenses, visualize spending with charts, and track budgets.
+*   **📅 AI Planner**: Integrated calendar system for event management and scheduling.
+*   **📔 Mindful Journal**: Daily journaling with mood tracking (emoji-based) and reflection.
+*   **👤 Identity Hub**: beautifully designed "About Me" profile page.
+*   **🎨 Premium UI**:
+    *   **Glassmorphism**: Modern, frosted-glass aesthetic using backdrop filters.
+    *   **Floating Dock**: macOS-style detached navigation bar.
+    *   **Animations**: Smooth transitions powered by `framer-motion`.
+
+## 🛠️ Technology Stack
+
+*   **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+*   **Language**: [TypeScript](https://www.typescriptlang.org/)
+*   **Styling**: 
+    *   [Tailwind CSS v4](https://tailwindcss.com/)
+    *   [Shadcn/UI](https://ui.shadcn.com/) (Component Library)
+*   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+*   **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+*   **Charts**: [Recharts](https://recharts.org/)
+*   **Calendar**: [React Big Calendar](https://github.com/jquense/react-big-calendar)
+*   **Icons**: [Lucide React](https://lucide.dev/)
+
+## 🏗️ Architecture
+
+LifeOS follows a client-side heavy architecture for interactivity, hosted within the robust Next.js server environment.
+
+```mermaid
+graph TD
+    User[User] -->|Access Request| Middleware{Middleware / Auth Guard}
+    Middleware -->|No Session| AuthPage[Auth Page (/auth)]
+    Middleware -->|Valid Session| AppShell[App Shell]
+    
+    subgraph Client_Application ["Client Application (Browser)"]
+        direction TB
+        AppShell --> NavBar[Floating Dock Navigation]
+        AppShell --> MainContent[Main Content Area]
+        
+        MainContent -->|Route: /| Dashboard[Dashboard]
+        MainContent -->|Route: /finance| Finance[Finance Module]
+        MainContent -->|Route: /calendar| Planner[Planner Module]
+        MainContent -->|Route: /journal| Journal[Journal Module]
+        MainContent -->|Route: /about| About[Profile Module]
+        
+        Dashboard & Finance & Planner & Journal & About --> Zustand[Zustand Store]
+        
+        Zustand -->|Persist| LocalStorage[(Local Storage)]
+    end
+
+    style Middleware fill:#f9f,stroke:#333,stroke-width:2px
+    style Zustand fill:#61dafb,stroke:#333,stroke-width:2px,color:black
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📂 Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+lifeos/
+├── src/
+│   ├── app/                 # Next.js App Router pages
+│   │   ├── auth/            # Authentication page
+│   │   ├── finance/         # Finance tracker
+│   │   ├── journal/         # Journaling app
+│   │   ├── about/           # Profile page
+│   │   ├── globals.css      # Global styles & Tailwind
+│   │   ├── layout.tsx       # Root layout & providers
+│   │   └── page.tsx         # Dashboard Entry
+│   ├── components/          # React Components
+│   │   ├── ui/              # Reusable Shadcn UI components
+│   │   ├── dashboard/       # Dashboard widgets
+│   │   ├── finance/         # Finance specific components
+│   │   └── Navbar.tsx       # Floating navigation
+│   ├── store/               # Global state (Zustand)
+│   └── lib/                 # Utilities
+├── middleware.ts            # Route protection logic
+├── tailwind.config.ts       # Tailwind configuration
+└── package.json             # Dependencies
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚡ Getting Started
 
-## Learn More
+1.  **Clone the repository**
+    ```bash
+    git clone git@github.com:PriyankaSDaida/LifeOS.git
+    cd LifeOS
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4.  **Open Application**
+    Visit `http://localhost:3000` in your browser.
 
-## Deploy on Vercel
+## 🔜 Future Roadmap
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*   [ ] **Backend Integration**: Connect to Supabase for real cloud persistence.
+*   [ ] **AI Insights**: Integrate OpenAI/Gemini for financial advice and journal sentiment analysis.
+*   [ ] **Mobile View**: Further optimize for PWA (Progressive Web App) experience.
+*   [ ] **Themes**: Add configurable color themes customizer.
