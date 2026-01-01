@@ -17,6 +17,7 @@ const navItems = [
     { href: '/focus', label: 'Focus', icon: Timer },
     { href: '/projects', label: 'Projects', icon: Layers },
     { href: '/ideas', label: 'Ideas', icon: Zap },
+    { href: '/about', label: 'About Me', icon: User },
 ];
 
 export function Navbar() {
@@ -61,11 +62,7 @@ export function Navbar() {
 
                 <NotificationManager />
 
-                <Link href="/auth">
-                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-secondary/50">
-                        <User className="h-5 w-5" />
-                    </Button>
-                </Link>
+
             </nav>
         </div>
     );

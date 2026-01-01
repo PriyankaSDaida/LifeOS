@@ -78,6 +78,26 @@ export interface Idea {
   createdAt: Date;
 }
 
+
+
+// User Profile Data
+export interface UserProfile {
+  name: string;
+  role: string;
+  bio: string;
+  location: string;
+  website: string;
+  socials: {
+    github: string;
+    linkedin: string;
+    twitter: string;
+    email: string;
+  };
+  skills: string[];
+  interests: string[];
+  image: string;
+}
+
 interface LifeOSState {
   events: Event[];
   expenses: Expense[];
@@ -95,6 +115,10 @@ interface LifeOSState {
 
   // Ideas State
   ideas: Idea[];
+
+  // User Profile State
+  userProfile: UserProfile;
+  updateUserProfile: (profile: Partial<UserProfile>) => void;
 
   // Actions
   addEvent: (event: Event) => void;
@@ -421,6 +445,26 @@ export const useLifeOSStore = create<LifeOSState>((set) => ({
 
   // Dashboard Actions
   setDashboardLayout: (layout) => set({ dashboardLayout: layout }),
+
+  userProfile: {
+    name: "Priyanka S",
+    role: "Full Stack Developer & Productivity Enthusiast",
+    bio: "Hello! I'm the creator of LifeOS. My goal is to simplify personal management through intuitive software.",
+    location: "San Francisco, CA",
+    website: "lifeos.app",
+    socials: {
+      github: "Github",
+      linkedin: "LinkedIn",
+      twitter: "Twitter",
+      email: "Contact"
+    },
+    skills: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "System Design"],
+    interests: ["Coding", "Design", "Hiking", "Reading", "AI"],
+    image: "https://github.com/shadcn.png"
+  },
+  updateUserProfile: (updates) => set((state) => ({
+    userProfile: { ...state.userProfile, ...updates }
+  })),
 
   // Ideas Actions
   addIdea: (content, color, rotation) => set((state) => ({

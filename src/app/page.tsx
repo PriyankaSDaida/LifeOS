@@ -4,6 +4,8 @@ import React from 'react';
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { QuoteCard } from "@/components/dashboard/QuoteCard";
+import { AgendaWidget } from "@/components/dashboard/AgendaWidget";
+import { ExpenseWidget } from "@/components/dashboard/ExpenseWidget";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle, PenTool, DollarSign } from "lucide-react";
@@ -54,25 +56,13 @@ export default function Home() {
       case 'agenda':
         return (
           <DraggableWidget id="agenda" className="col-span-4 transition-all h-[300px]">
-            <div className="border border-dashed rounded-xl p-8 flex flex-col items-center justify-center bg-card/50 text-card-foreground shadow-sm h-full hover:bg-card/80 transition-colors">
-              <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
-                <PlusCircle className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <p className="text-muted-foreground font-medium">Upcoming Agenda</p>
-              <p className="text-xs text-muted-foreground/60">Sync your calendar to see more</p>
-            </div>
+            <AgendaWidget />
           </DraggableWidget>
         );
       case 'finance':
         return (
           <DraggableWidget id="finance" className="col-span-3 transition-all h-[300px]">
-            <div className="border border-dashed rounded-xl p-8 flex flex-col items-center justify-center bg-card/50 text-card-foreground shadow-sm h-full hover:bg-card/80 transition-colors">
-              <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
-                <DollarSign className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <p className="text-muted-foreground font-medium">Expense Trends</p>
-              <p className="text-xs text-muted-foreground/60">Connect accounts for insights</p>
-            </div>
+            <ExpenseWidget />
           </DraggableWidget>
         );
       default:

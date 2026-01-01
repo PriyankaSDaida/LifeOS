@@ -4,13 +4,23 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Code, Heart, Zap, Globe, Mail, Github, Linkedin, MapPin } from "lucide-react";
+import { Code, Heart, Zap, Globe, Mail, Github, Linkedin, MapPin, Twitter } from "lucide-react";
+import { useLifeOSStore } from "@/store/useLifeOSStore";
+import { ProfileEditDialog } from "@/components/profile/ProfileEditDialog";
 
 export default function AboutPage() {
-    const skills = [
-        "Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "System Design",
-        "Productivity", "Time Management", "Financial Planning"
-    ];
+    const { userProfile } = useLifeOSStore();
+
+    // Fallback if store hydration is slightly delayed, though initial state exists
+    const profile = userProfile || {
+        name: "User Name",
+        role: "Role",
+        location: "Location",
+        image: "",
+        skills: [],
+        interests: [],
+        socials: { github: "Github", linkedin: "LinkedIn" }
+    };
 
     const container = {
         hidden: { opacity: 0 },
@@ -35,35 +45,58 @@ export default function AboutPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <Card className="border-none bg-background/60 backdrop-blur-xl shadow-xl overflow-hidden">
-                    <div className="h-32 bg-gradient-to-r from-violet-500 to-fuchsia-500 opacity-90" />
+                <Card className="border-none bg-background/60 backdrop-blur-xl shadow-xl overflow-hidden group">
+                    <div className="h-32 bg-gradient-to-r from-violet-500 to-fuchsia-500 opacity-90 transition-opacity group-hover:opacity-100" />
                     <CardContent className="relative px-8 pb-8">
                         <div className="absolute -top-16 left-8">
                             <Avatar className="h-32 w-32 border-4 border-background shadow-lg">
-                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                <AvatarFallback>U</AvatarFallback>
+                                <AvatarImage src={profile.image} alt={profile.name} className="object-cover" />
+                                <AvatarFallback>{profile.name.charAt(0)}</AvatarFallback>
                             </Avatar>
+                        </div>
+
+                        <div className="absolute top-4 right-4">
+                            <ProfileEditDialog />
                         </div>
 
                         <div className="mt-20 flex flex-col md:flex-row md:items-end justify-between gap-4">
                             <div>
-                                <h1 className="text-3xl font-bold">User Name</h1>
-                                <p className="text-muted-foreground font-medium">Full Stack Developer & Productivity Enthusiast</p>
+                                <h1 className="text-3xl font-bold">{profile.name}</h1>
+                                <p className="text-muted-foreground font-medium">{profile.role}</p>
                                 <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                                    <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> San Francisco, CA</span>
-                                    <span className="flex items-center gap-1"><Globe className="w-4 h-4" /> lifeos.app</span>
+                                    <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {profile.location}</span>
+                                    <span className="flex items-center gap-1"><Globe className="w-4 h-4" /> {profile.website}</span>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
-                                <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80">
-                                    <Github className="w-4 h-4 mr-1" /> Github
-                                </Badge>
-                                <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80">
-                                    <Linkedin className="w-4 h-4 mr-1" /> LinkedIn
-                                </Badge>
-                                <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80">
-                                    <Mail className="w-4 h-4 mr-1" /> Contact
-                                </Badge>
+                            <div className="flex gap-2 flex-wrap">
+                                {profile.socials.github && (
+                                    <a href={profile.socials.github} target="_blank" rel="noopener noreferrer">
+                                        <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80 transition-colors">
+                                            <Github className="w-4 h-4 mr-1" /> Github
+                                        </Badge>
+                                    </a>
+                                )}
+                                {profile.socials.linkedin && (
+                                    <a href={profile.socials.linkedin} target="_blank" rel="noopener noreferrer">
+                                        <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80 transition-colors">
+                                            <Linkedin className="w-4 h-4 mr-1" /> LinkedIn
+                                        </Badge>
+                                    </a>
+                                )}
+                                {profile.socials.twitter && (
+                                    <a href={profile.socials.twitter} target="_blank" rel="noopener noreferrer">
+                                        <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80 transition-colors">
+                                            <Twitter className="w-4 h-4 mr-1" /> Twitter
+                                        </Badge>
+                                    </a>
+                                )}
+                                {profile.socials.email && (
+                                    <a href={`mailto:${profile.socials.email}`}>
+                                        <Badge variant="secondary" className="px-3 py-1 cursor-pointer hover:bg-secondary/80 transition-colors">
+                                            <Mail className="w-4 h-4 mr-1" /> Contact
+                                        </Badge>
+                                    </a>
+                                )}
                             </div>
                         </div>
                     </CardContent>
@@ -83,8 +116,8 @@ export default function AboutPage() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="flex flex-wrap gap-2">
-                                    {["Coding", "Design", "Hiking", "Reading", "AI"].map((tag) => (
-                                        <Badge key={tag} variant="outline" className="bg-background/50">{tag}</Badge>
+                                    {profile.interests.map((tag) => (
+                                        <Badge key={tag} variant="outline" className="bg-background/50 hover:bg-background/80 transition-colors">{tag}</Badge>
                                     ))}
                                 </CardContent>
                             </Card>
@@ -117,14 +150,8 @@ export default function AboutPage() {
                                 <CardTitle>About Me</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4 leading-relaxed text-muted-foreground">
-                                <p>
-                                    Hello! I'm the creator of LifeOS. My goal is to simplify personal management through intuitive software.
-                                    I believe that organizing your life shouldn't feel like a chore, but rather a seamless experience that empowers you to focus on what truly matters.
-                                </p>
-                                <p>
-                                    With a background in software engineering and a passion for design, I built this platform to combine functionality with aesthetics.
-                                    When I'm not coding, you can find me exploring new coffee shops, reading sci-fi novels, or hiking in the mountains.
-                                </p>
+                                <p>{profile.bio}</p>
+                                {profile.longBio && <p>{profile.longBio}</p>}
                             </CardContent>
                         </Card>
                     </motion.div>
@@ -139,11 +166,11 @@ export default function AboutPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    {skills.map((skill, index) => (
+                                    {profile.skills.map((skill) => (
                                         <motion.div
                                             key={skill}
                                             whileHover={{ scale: 1.05 }}
-                                            className="p-2 rounded-lg bg-secondary/50 text-center text-sm font-medium border border-border/50"
+                                            className="p-2 rounded-lg bg-secondary/50 text-center text-sm font-medium border border-border/50 hover:border-primary/50 transition-colors"
                                         >
                                             {skill}
                                         </motion.div>
@@ -157,3 +184,4 @@ export default function AboutPage() {
         </div>
     );
 }
+
