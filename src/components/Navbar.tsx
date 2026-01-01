@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { Home, Calendar, DollarSign, BookHeart, User } from 'lucide-react';
+import { Home, Calendar, DollarSign, BookHeart, User, Activity, Timer, Layers, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
@@ -12,7 +12,10 @@ const navItems = [
     { href: '/calendar', label: 'Planner', icon: Calendar },
     { href: '/finance', label: 'Finance', icon: DollarSign },
     { href: '/journal', label: 'Journal', icon: BookHeart },
-    { href: '/about', label: 'About', icon: User },
+    { href: '/habits', label: 'Habits', icon: Activity },
+    { href: '/focus', label: 'Focus', icon: Timer },
+    { href: '/projects', label: 'Projects', icon: Layers },
+    { href: '/ideas', label: 'Ideas', icon: Zap },
 ];
 
 export function Navbar() {
