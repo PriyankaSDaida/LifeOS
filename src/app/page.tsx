@@ -1,65 +1,65 @@
-import Image from "next/image";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DashboardStats } from "@/components/dashboard/DashboardStats";
+import { QuoteCard } from "@/components/dashboard/QuoteCard";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { PlusCircle, PenTool, DollarSign } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <DashboardHeader />
+
+        <div className="flex gap-2">
+          <Link href="/calendar">
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add Event
+            </Button>
+          </Link>
+          <Link href="/journal">
+            <Button variant="outline">
+              <PenTool className="mr-2 h-4 w-4" />
+              Log Mood
+            </Button>
+          </Link>
+          <Link href="/finance">
+            <Button variant="secondary">
+              <DollarSign className="mr-2 h-4 w-4" />
+              Add Expense
+            </Button>
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <div className="col-span-4 space-y-4">
+          {/* Wrapped Stats in a container if needed, but direct is fine. Adding classes to DashboardStats in next step if generic doesn't apply */}
+          <DashboardStats />
         </div>
-      </main>
+        <div className="col-span-3">
+          <QuoteCard />
+        </div>
+      </div>
+
+      {/* Visual Placeholder for where charts/calendars will act as summaries */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <div className="col-span-4 border border-dashed rounded-xl p-8 flex flex-col items-center justify-center bg-card/50 text-card-foreground shadow-sm h-[300px] hover:bg-card/80 transition-colors">
+          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
+            <PlusCircle className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <p className="text-muted-foreground font-medium">Upcoming Agenda</p>
+          <p className="text-xs text-muted-foreground/60">Sync your calendar to see more</p>
+        </div>
+        <div className="col-span-3 border border-dashed rounded-xl p-8 flex flex-col items-center justify-center bg-card/50 text-card-foreground shadow-sm h-[300px] hover:bg-card/80 transition-colors">
+          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
+            <DollarSign className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <p className="text-muted-foreground font-medium">Expense Trends</p>
+          <p className="text-xs text-muted-foreground/60">Connect accounts for insights</p>
+        </div>
+      </div>
     </div>
   );
 }
