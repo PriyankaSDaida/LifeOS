@@ -11,7 +11,11 @@ LifeOS is a comprehensive, modern personal management web application designed t
 *   **💰 Finance Tracker**: Manage expenses, visualize spending with charts, and track budgets.
 *   **📅 AI Planner**: Integrated calendar system for event management and scheduling.
 *   **📔 Mindful Journal**: Daily journaling with mood tracking (emoji-based) and reflection.
-*   **👤 Identity Hub**: beautifully designed "About Me" profile page.
+*   **✅ Habit Tracker**: Visualize consistency with contribution graphs and streak tracking.
+*   **⏲️ Focus Timer**: Pomodoro-style timer with customizable work/break intervals.
+*   **📋 Kanban Projects**: Drag-and-drop project management with tasks, comments, and color coding.
+*   **💡 Ideas Board**: Sticky-note style "Brain Dump" area for quick thoughts.
+*   ** Identity Hub**: beautifully designed "About Me" profile page.
 *   **🎨 Premium UI**:
     *   **Glassmorphism**: Modern, frosted-glass aesthetic using backdrop filters.
     *   **Floating Dock**: macOS-style detached navigation bar.
@@ -49,6 +53,10 @@ graph TD
         MainContent -->|Route: /finance| Finance["Finance Module"]
         MainContent -->|Route: /calendar| Planner["Planner Module"]
         MainContent -->|Route: /journal| Journal["Journal Module"]
+        MainContent -->|Route: /habits| Habits["Habit Tracker"]
+        MainContent -->|Route: /focus| Focus["Focus Timer"]
+        MainContent -->|Route: /projects| Projects["Kanban Projects"]
+        MainContent -->|Route: /ideas| Ideas["Ideas Board"]
         MainContent -->|Route: /about| About["Profile Module"]
         
         Dashboard & Finance & Planner & Journal & About --> Zustand["Zustand Store"]
@@ -69,6 +77,10 @@ lifeos/
 │   │   ├── auth/            # Authentication page
 │   │   ├── finance/         # Finance tracker
 │   │   ├── journal/         # Journaling app
+│   │   ├── habits/          # Habit tracker
+│   │   ├── focus/           # Pomodoro timer
+│   │   ├── projects/        # Kanban board
+│   │   ├── ideas/           # Brain dump page
 │   │   ├── about/           # Profile page
 │   │   ├── globals.css      # Global styles & Tailwind
 │   │   ├── layout.tsx       # Root layout & providers
@@ -117,10 +129,7 @@ lifeos/
 *   [ ] **Supabase Integration**: Move from local storage to PostgreSQL for real authentication and multi-device sync.
 *   [ ] **Google Calendar Sync**: Two-way integration for events.
 
-### ✅ Habit & Productivity
-*   [ ] **Habit Tracker**: GitHub-style contribution graphs and streak tracking for daily habits.
-*   [ ] **Pomodoro Timer**: Integrated focus timer for deep work sessions.
-*   [ ] **Kanban Board**: Drag-and-drop project management.
+
 
 ### 📱 Mobile & Customization
 *   [ ] **Offline Mode**: Enhanced PWA capabilities for full offline functionality.

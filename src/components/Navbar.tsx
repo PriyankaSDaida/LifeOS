@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { Home, Calendar, DollarSign, BookHeart, User, Activity, Timer, Layers, Zap } from 'lucide-react';
+import { LayoutDashboard, Calendar, Wallet, BookHeart, User, Activity, Timer, Layers, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { NotificationManager } from './NotificationManager';
 
 const navItems = [
-    { href: '/', label: 'Home', icon: Home },
+    { href: '/', label: 'Home', icon: LayoutDashboard },
     { href: '/calendar', label: 'Planner', icon: Calendar },
-    { href: '/finance', label: 'Finance', icon: DollarSign },
+    { href: '/finance', label: 'Finance', icon: Wallet },
     { href: '/journal', label: 'Journal', icon: BookHeart },
     { href: '/habits', label: 'Habits', icon: Activity },
     { href: '/focus', label: 'Focus', icon: Timer },
@@ -57,6 +58,8 @@ export function Navbar() {
                 </nav>
 
                 <div className="w-px h-6 bg-border/50 mx-1" />
+
+                <NotificationManager />
 
                 <Link href="/auth">
                     <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-secondary/50">
