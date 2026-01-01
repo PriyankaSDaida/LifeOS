@@ -1,5 +1,6 @@
 import { JournalEntryForm } from '@/components/journal/JournalEntryForm';
 import { JournalList } from '@/components/journal/JournalList';
+import { SentimentSummary } from '@/components/journal/SentimentSummary';
 
 export default function JournalPage() {
     return (
@@ -10,6 +11,8 @@ export default function JournalPage() {
             </div>
 
             <JournalEntryForm />
+
+            <SentimentSummary />
 
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
