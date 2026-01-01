@@ -36,24 +36,24 @@ LifeOS follows a client-side heavy architecture for interactivity, hosted within
 
 ```mermaid
 graph TD
-    User[User] -->|Access Request| Middleware{Middleware / Auth Guard}
-    Middleware -->|No Session| AuthPage[Auth Page (/auth)]
-    Middleware -->|Valid Session| AppShell[App Shell]
+    User[User] -->|Access Request| Middleware{"Middleware / Auth Guard"}
+    Middleware -->|No Session| AuthPage["Auth Page (/auth)"]
+    Middleware -->|Valid Session| AppShell["App Shell"]
     
     subgraph Client_Application ["Client Application (Browser)"]
         direction TB
-        AppShell --> NavBar[Floating Dock Navigation]
-        AppShell --> MainContent[Main Content Area]
+        AppShell --> NavBar["Floating Dock Navigation"]
+        AppShell --> MainContent["Main Content Area"]
         
-        MainContent -->|Route: /| Dashboard[Dashboard]
-        MainContent -->|Route: /finance| Finance[Finance Module]
-        MainContent -->|Route: /calendar| Planner[Planner Module]
-        MainContent -->|Route: /journal| Journal[Journal Module]
-        MainContent -->|Route: /about| About[Profile Module]
+        MainContent -->|Route: /| Dashboard["Dashboard"]
+        MainContent -->|Route: /finance| Finance["Finance Module"]
+        MainContent -->|Route: /calendar| Planner["Planner Module"]
+        MainContent -->|Route: /journal| Journal["Journal Module"]
+        MainContent -->|Route: /about| About["Profile Module"]
         
-        Dashboard & Finance & Planner & Journal & About --> Zustand[Zustand Store]
+        Dashboard & Finance & Planner & Journal & About --> Zustand["Zustand Store"]
         
-        Zustand -->|Persist| LocalStorage[(Local Storage)]
+        Zustand -->|Persist| LocalStorage[("Local Storage")]
     end
 
     style Middleware fill:#f9f,stroke:#333,stroke-width:2px
