@@ -18,7 +18,7 @@ LifeOS is a comprehensive, modern personal management web application designed t
 *   **📱 Mobile & PWA**: Fully offline-capable Progressive Web App with install support.
 *   **🔔 Smart Notifications**: Local reminders to keep up with habits and journaling.
 *   **🧩 Custom Dashboard**: Draggable widgets to personalize your home screen layout.
-*   ** Identity Hub**: beautifully designed "About Me" profile page.
+*   **Identity Hub**: Beautifully designed "About Me" profile page.
 *   **🎨 Premium UI**:
     *   **Glassmorphism**: Modern, frosted-glass aesthetic using backdrop filters.
     *   **Floating Dock**: macOS-style detached navigation bar.
