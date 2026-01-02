@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Calendar, Wallet, BookHeart, User, Activity, Timer, Layers, Zap } from 'lucide-react';
+import { LayoutDashboard, Calendar, Wallet, BookHeart, User, Activity, Timer, Layers, Zap, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NotificationManager } from './NotificationManager';
+import { handleSignOut } from '@/actions/auth-actions';
 
 const navItems = [
     { href: '/', label: 'Home', icon: LayoutDashboard },
@@ -61,6 +62,14 @@ export function Navbar() {
                 <div className="w-px h-6 bg-border/50 mx-1" />
 
                 <NotificationManager />
+
+                <div className="w-px h-6 bg-border/50 mx-1" />
+
+                <form action={handleSignOut}>
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-secondary/50" title="Sign Out">
+                        <LogOut className="h-4 w-4" />
+                    </Button>
+                </form>
 
 
             </nav>

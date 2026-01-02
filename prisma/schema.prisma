@@ -1,0 +1,201 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  
+  // App Data
+  events           Event[]
+  expenses         Expense[]
+  journalEntries   JournalEntry[]
+  habits           Habit[]
+  pomodoroSettings PomodoroSettings?
+  kanbanBoard      KanbanBoard?
+  ideas            Idea[]
+  userProfile      UserProfile?
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+ 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+}
+
+// App Models
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  start       DateTime
+  end         DateTime
+  isGoal      Boolean  @default(false)
+  isCompleted Boolean  @default(false)
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  amount      Float
+  category    String
+  description String
+  date        DateTime
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model JournalEntry {
+  id        String   @id @default(uuid())
+  content   String
+  mood      Int
+  createdAt DateTime @default(now())
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Habit {
+  id             String   @id @default(uuid())
+  title          String
+  frequency      String
+  completedDates DateTime[]
+  streak         Int      @default(0)
+  createdAt      DateTime @default(now())
+  
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PomodoroSettings {
+  id                 String @id @default(uuid())
+  workDuration       Int
+  shortBreakDuration Int
+  longBreakDuration  Int
+  
+  userId             String @unique
+  user               User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model KanbanBoard {
+  id          String   @id @default(uuid())
+  columnOrder String[] // IDs of columns in order
+  
+  columns     KanbanColumn[]
+  
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model KanbanColumn {
+  id        String   @id @default(uuid())
+  title     String
+  taskIds   String[] // Order of tasks
+  
+  tasks     KanbanTask[]
+  
+  boardId   String
+  board     KanbanBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
+
+model KanbanTask {
+  id        String   @id @default(uuid())
+  content   String
+  color     String?
+  
+  comments  Comment[]
+  
+  columnId  String
+  column    KanbanColumn @relation(fields: [columnId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  
+  taskId    String
+  task      KanbanTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model Idea {
+  id        String   @id @default(uuid())
+  content   String
+  color     String
+  rotation  Float
+  createdAt DateTime @default(now())
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserProfile {
+  id        String   @id @default(uuid())
+  role      String?
+  bio       String?
+  location  String?
+  website   String?
+  socials   Json?
+  skills    String[]
+  interests String[]
+  
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
