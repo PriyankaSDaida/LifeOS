@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { LayoutDashboard, Calendar, Wallet, BookHeart, User, Activity, Timer, Layers, Zap, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NotificationManager } from './NotificationManager';
+import { handleSignOut } from '@/actions/auth-actions';
 
 const navItems = [
     { href: '/', label: 'Home', icon: LayoutDashboard },
@@ -63,17 +64,11 @@ export function Navbar() {
                 <NotificationManager />
 
                 <div className="w-px h-6 bg-border/50 mx-1" />
-
-                <button
-                    onClick={() => {
-                        document.cookie = "auth=; path=/; max-age=0";
-                        window.location.href = "/auth";
-                    }}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-red-500 hover:bg-secondary/50 rounded-full"
-                >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                </button>
+                <form action={handleSignOut}>
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-secondary/50" title="Sign Out">
+                        <LogOut className="h-4 w-4" />
+                    </Button>
+                </form>
             </nav>
         </div>
     );

@@ -16,7 +16,11 @@ import { DraggableWidget } from "@/components/dashboard/DraggableWidget";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
-  const { dashboardLayout, setDashboardLayout } = useLifeOSStore();
+  const { dashboardLayout, setDashboardLayout, fetchInitialData } = useLifeOSStore();
+
+  React.useEffect(() => {
+    fetchInitialData();
+  }, [fetchInitialData]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

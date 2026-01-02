@@ -6,7 +6,7 @@ LifeOS is a comprehensive, modern personal management web application designed t
 
 ## 🚀 Key Features
 
-*   **🛡️ Secure Authentication**: Middleware-protected routes with a custom login/signup interface.
+*   **🛡️ Secure Authentication**: Middleware-protected routes with **NextAuth.js** (Login/Register).
 *   **📊 Interactive Dashboard**: At-a-glance view of daily stats, quotes, and quick actions.
 *   **💰 Finance Tracker**: Manage expenses, visualize spending with charts, and track budgets.
 *   **📅 AI Planner**: Integrated calendar system for event management and scheduling.
@@ -28,23 +28,30 @@ LifeOS is a comprehensive, modern personal management web application designed t
 
 *   **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
 *   **Language**: [TypeScript](https://www.typescriptlang.org/)
+*   **Database**: [PostgreSQL](https://www.postgresql.org/)
+*   **ORM**: [Prisma](https://www.prisma.io/)
+*   **Authentication**: [NextAuth.js v5](https://authjs.dev/)
 *   **Styling**: 
     *   [Tailwind CSS v4](https://tailwindcss.com/)
     *   [Shadcn/UI](https://ui.shadcn.com/) (Component Library)
 *   **Animations**: [Framer Motion](https://www.framer.com/motion/)
-*   **State Management**: [Zustand](https://github.com/pmndrs/zustand)
-*   **Charts**: [Recharts](https://recharts.org/)
-*   **Calendar**: [React Big Calendar](https://github.com/jquense/react-big-calendar)
+*   **State Management**: [Zustand](https://github.com/pmndrs/zustand) (synced with Server Actions)
 *   **Icons**: [Lucide React](https://lucide.dev/)
 
 ## 🏗️ Architecture
 
-LifeOS follows a client-side heavy architecture for interactivity, hosted within the robust Next.js server environment.
+LifeOS uses a modern **Next.js App Router** architecture with Server Actions for backend logic.
+
+### Data Flow
+1.  **Client**: Components (Zustand) trigger Server Actions.
+2.  **Server Action**: Validates input -> Checks Auth (NextAuth) -> Calls Database (Prisma).
+3.  **Database**: PostgreSQL stores the data.
+4.  **Optimistic Updates**: Client updates UI immediately for zero-latency feel.
 
 ```mermaid
 graph TD
     User[User] -->|Access Request| Middleware{"Middleware / Auth Guard"}
-    Middleware -->|No Session| AuthPage["Auth Page (/auth)"]
+    Middleware -->|No Session| AuthPage["Auth Pages (/login, /register)"]
     Middleware -->|Valid Session| AppShell["App Shell"]
     
     subgraph Client_Application ["Client Application (Browser)"]
@@ -54,53 +61,33 @@ graph TD
         
         MainContent -->|Route: /| Dashboard["Dashboard"]
         MainContent -->|Route: /finance| Finance["Finance Module"]
-        MainContent -->|Route: /calendar| Planner["Planner Module"]
-        MainContent -->|Route: /journal| Journal["Journal Module"]
-        MainContent -->|Route: /habits| Habits["Habit Tracker"]
-        MainContent -->|Route: /focus| Focus["Focus Timer"]
-        MainContent -->|Route: /projects| Projects["Kanban Projects"]
-        MainContent -->|Route: /ideas| Ideas["Ideas Board"]
-        MainContent -->|Route: /about| About["Profile Module"]
+        MainContent -->|Server Actions| ServerActions["Server Actions (API)"]
         
-        Dashboard & Finance & Planner & Journal & About --> Zustand["Zustand Store"]
-        
-        Zustand -->|Persist| LocalStorage[("Local Storage")]
+        Dashboard & Finance --> Zustand["Zustand Store (Client Cache)"]
+    end
+
+    subgraph Server_Infrastructure ["Server Infrastructure (Node/Next.js)"]
+        ServerActions -->|Authenticate| NextAuth["NextAuth.js"]
+        ServerActions -->|ORM| Prisma["Prisma ORM"]
+        NextAuth -->|Session Data| Prisma
+    end
+
+    subgraph Database_Layer ["Database Layer"]
+        Prisma -->|Query/Mutation| Postgres[("PostgreSQL Database")]
     end
 
     style Middleware fill:#f9f,stroke:#333,stroke-width:2px
-    style Zustand fill:#61dafb,stroke:#333,stroke-width:2px,color:black
-```
-
-## 📂 Project Structure
-
-```bash
-lifeos/
-├── src/
-│   ├── app/                 # Next.js App Router pages
-│   │   ├── auth/            # Authentication page
-│   │   ├── finance/         # Finance tracker
-│   │   ├── journal/         # Journaling app
-│   │   ├── habits/          # Habit tracker
-│   │   ├── focus/           # Pomodoro timer
-│   │   ├── projects/        # Kanban board
-│   │   ├── ideas/           # Brain dump page
-│   │   ├── about/           # Profile page
-│   │   ├── globals.css      # Global styles & Tailwind
-│   │   ├── layout.tsx       # Root layout & providers
-│   │   └── page.tsx         # Dashboard Entry
-│   ├── components/          # React Components
-│   │   ├── ui/              # Reusable Shadcn UI components
-│   │   ├── dashboard/       # Dashboard widgets
-│   │   ├── finance/         # Finance specific components
-│   │   └── Navbar.tsx       # Floating navigation
-│   ├── store/               # Global state (Zustand)
-│   └── lib/                 # Utilities
-├── middleware.ts            # Route protection logic
-├── tailwind.config.ts       # Tailwind configuration
-└── package.json             # Dependencies
+    style Postgres fill:#336791,stroke:#333,stroke-width:2px,color:white
+    style NextAuth fill:#a855f7,stroke:#333,stroke-width:2px,color:white
 ```
 
 ## ⚡ Getting Started
+
+### Prerequisites
+*   Node.js 18+
+*   PostgreSQL (Local or Cloud)
+
+### Installation
 
 1.  **Clone the repository**
     ```bash
@@ -113,25 +100,48 @@ lifeos/
     npm install
     ```
 
-3.  **Run Development Server**
+3.  **Configure Environment**
+    Create a `.env` file in the root directory:
+    ```env
+    # Database Connection
+    DATABASE_URL="postgresql://user:password@localhost:5432/lifeos?schema=public"
+    
+    # Auth Secret (Run `npx auth secret` to generate)
+    AUTH_SECRET="your-generated-secret-key"
+    
+    # Base URL (for Auth)
+    NEXTAUTH_URL="http://localhost:3000"
+    ```
+
+4.  **Setup Database**
+    Run Prisma migrations to create the tables:
+    ```bash
+    npx prisma migrate dev --name init
+    ```
+
+5.  **Run Development Server**
     ```bash
     npm run dev
     ```
 
-4.  **Open Application**
-    Visit `http://localhost:3000` in your browser.
+6.  **Open Application**
+    Visit `http://localhost:3000`.
 
-## 🔜 Future Roadmap
+## 📂 Project Structure
 
-### 🧠 AI & Intelligence
-*   [ ] **Journal Sentiment Analysis**: Weekly mental health summaries based on mood tracking.
-*   [ ] **Smart Finance Insights**: AI-driven spending habits analysis and advice.
-*   [ ] **Auto-Scheduling**: "Magic Button" to fit to-do lists into free calendar slots.
-
-### ☁️ Backend & Cloud Sync
-*   [ ] **Supabase Integration**: Move from local storage to PostgreSQL for real authentication and multi-device sync.
-*   [ ] **Google Calendar Sync**: Two-way integration for events.
-
-
-
-
+```bash
+lifeos/
+├── src/
+│   ├── actions/             # Server Actions (Backend Logic)
+│   ├── app/                 # Next.js Pages & Routes
+│   │   ├── login/           # Login Page
+│   │   ├── register/        # Register Page
+│   │   └── ...              # Feature pages
+│   ├── lib/                 # Utilities (db connection, etc.)
+│   ├── store/               # Client State (Zustand)
+│   └── components/          # React Components
+├── prisma/
+│   └── schema.prisma        # Database Schema
+├── middleware.ts            # Route Protection
+└── .env                     # Secrets (Not committed)
+```
